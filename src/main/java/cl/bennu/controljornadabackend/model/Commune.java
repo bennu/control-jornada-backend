@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class Commune extends BaseDomain implements Serializable {
     private Long cityId;
     private String name;
-    private String siiCode;
-    private String tgrCode;
+    private String siiCode; // código de comuna de SII (servicio de impuestos internos)
+    private String tgrCode; // código de tesorería (Tesorería General de la República)
 }
