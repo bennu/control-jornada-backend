@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cl.bennu.controljornadabackend.mapper.CompanyMapper">
+
+    <resultMap id="companyMap" type="cl.bennu.controljornadabackend.model.Company">
+        <id property="id" column="id"/>
+        <result property="communeId" column="commune_id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="alias" column="alias"/>
+        <result property="giro" column="giro"/>
+        <result property="email" column="email"/>
+        <result property="geolocation" column="geolocation"/>
+        <result property="selfie" column="selfie"/>
+        <result property="lag" column="lag"/>
+    </resultMap>
+
+    <sql id="sqlCompany">
+        <!-- @formatter:off -->
+        SELECT
+        c.id
+        , c.commune_id
+        , c.code
+        , c.name
+        , c.address
+        , c.phone
+        , c.alias
+        , c.giro
+        , c.email
+        , c.geolocation
+        , c.selfie
+        , c.lag
+        FROM company c
+        <!-- @formatter:on -->
+    </sql>
+
+    <select id="getAll" resultMap="companyMap">
+        <include refid="sqlCompany"/>
+    </select>
+
+    <select id="get" resultMap="companyMap" parameterType="java.lang.Long">
+        <include refid="sqlCompany"/>
+        WHERE c.id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="cl.bennu.controljornadabackend.model.Company" keyProperty="id" useGeneratedKeys="true">
+        <!-- @formatter:off -->
+        INSERT INTO company (
+        commune_id
+        , code
+        , name
+        , address
+        , phone
+        , alias
+        , giro
+        , email
+        , geolocation
+        , selfie
+        , lag
+        ) VALUES (
+        #{communeId}
+        , #{code}
+        , #{name}
+        , #{address}
+        , #{phone}
+        , #{alias}
+        , #{giro}
+        , #{email}
+        , #{geolocation}
+        , #{selfie}
+        , #{lag}
+        )
+        <!-- @formatter:on -->
+    </insert>
+
+    <update id="update" parameterType="cl.bennu.controljornadabackend.model.Company">
+        <!-- @formatter:off -->
+        UPDATE company SET
+        commune_id = #{communeId}
+        , code = #{code}
+        , name = #{name}
+        , address = #{address}
+        , phone = #{phone}
+        , alias = #{alias}
+        , giro = #{giro}
+        , email = #{email}
+        , geolocation = #{geolocation}
+        , selfie = #{selfie}
+        , lag = #{lag}
+        WHERE id = #{id}
+        <!-- @formatter:on -->
+    </update>
+
+    <delete id="delete">
+        DELETE FROM company WHERE id = #{id}
+    </delete>
+
+</mapper>

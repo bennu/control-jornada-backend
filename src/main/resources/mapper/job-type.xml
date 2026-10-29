@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cl.bennu.controljornadabackend.mapper.JobTypeMapper">
+
+    <resultMap id="jobTypeMap" type="cl.bennu.controljornadabackend.model.JobType">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="companyId" column="company_id"/>
+        <result property="branchId" column="branch_id"/>
+    </resultMap>
+
+    <sql id="sqlJobType">
+        SELECT
+            jt.id
+            , jt.name
+            , jt.company_id
+            , jt.branch_id
+        FROM job_type jt
+    </sql>
+
+    <select id="getAll" resultMap="jobTypeMap">
+        <include refid="sqlJobType"/>
+    </select>
+
+    <select id="get" resultMap="jobTypeMap" parameterType="java.lang.Long">
+        <include refid="sqlJobType"/>
+        WHERE jt.id = #{id}
+    </select>
+
+    <insert id="insert"
+            parameterType="cl.bennu.controljornadabackend.model.JobType"
+            keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO job_type (
+            name
+            , company_id
+            , branch_id
+        ) VALUES (
+            #{name}
+            , #{companyId}
+            , #{branchId}
+        )
+    </insert>
+
+    <update id="update" parameterType="cl.bennu.controljornadabackend.model.JobType">
+        UPDATE job_type SET
+            name = #{name}
+            , company_id = #{companyId}
+            , branch_id = #{branchId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM job_type WHERE id = #{id}
+    </delete>
+
+</mapper>

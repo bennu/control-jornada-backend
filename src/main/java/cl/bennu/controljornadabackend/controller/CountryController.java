@@ -2,8 +2,8 @@ package cl.bennu.controljornadabackend.controller;
 
 import cl.bennu.controljornadabackend.constants.Constants;
 import cl.bennu.controljornadabackend.controller.base.BaseController;
-import cl.bennu.controljornadabackend.model.Example;
-import cl.bennu.controljornadabackend.service.TemplateService;
+import cl.bennu.controljornadabackend.model.Country;
+import cl.bennu.controljornadabackend.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,34 +13,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = Constants.BASE_API, produces = MediaType.APPLICATION_JSON_VALUE)
-public class ExampleController extends BaseController {
+public class CountryController extends BaseController {
 
-    private static final String ENDPOINT = "/example";
+    private static final String ENDPOINT = "/country";
 
-    private @Autowired TemplateService templateService;
+    private @Autowired CountryService countryService;
 
     @GetMapping(ENDPOINT)
     public ResponseEntity<?> getAll() {
-        List<Example> examples = templateService.getAllExamples();
-        return ok(examples);
+        List<Country> list = countryService.getAll();
+        return ok(list);
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<?> save(@RequestBody Example example) {
-        templateService.saveExample(example);
-        return ok(example);
+    public ResponseEntity<?> save(@RequestBody Country country) {
+        countryService.save(country);
+        return ok(country);
     }
 
     @GetMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        Example example = templateService.getExampleById(id);
-        return ok(example);
+        Country country = countryService.getById(id);
+        if (country == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ok(country);
     }
 
     @DeleteMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        templateService.deleteExample(id);
+        countryService.delete(id);
         return ok();
     }
-
 }
+
+

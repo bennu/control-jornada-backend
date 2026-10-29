@@ -46,6 +46,7 @@ class CityServiceTest {
         when(cityMapper.get(1L)).thenReturn(c);
 
         assertThat(cityService.getById(1L)).isSameAs(c);
+        assertThat(cityService.getById(1L)).isEqualTo(city());
     }
 
     @Test

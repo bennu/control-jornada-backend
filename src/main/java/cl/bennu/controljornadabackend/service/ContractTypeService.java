@@ -1,0 +1,41 @@
+package cl.bennu.controljornadabackend.service;
+
+import cl.bennu.controljornadabackend.mapper.ContractTypeMapper;
+import cl.bennu.controljornadabackend.model.ContractType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class ContractTypeService {
+
+    private @Autowired ContractTypeMapper contractTypeMapper;
+
+    public List<ContractType> getAllContractTypes() {
+        return contractTypeMapper.getAll();
+    }
+
+    @Transactional
+    public void saveContractType(ContractType contractType) {
+        ContractType existingContractType = null == contractType.getId()
+                ? null
+                : contractTypeMapper.get(contractType.getId());
+
+        if (null == existingContractType) {
+            contractTypeMapper.insert(contractType);
+        } else {
+            contractTypeMapper.update(contractType);
+        }
+    }
+
+    public ContractType getContractTypeById(Long contractTypeId) {
+        return contractTypeMapper.get(contractTypeId);
+    }
+
+    public void deleteContractType(Long contractTypeId) {
+        contractTypeMapper.delete(contractTypeId);
+    }
+
+}

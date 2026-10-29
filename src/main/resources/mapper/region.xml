@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cl.bennu.controljornadabackend.mapper.RegionMapper">
+
+    <resultMap id="regionMap" type="cl.bennu.controljornadabackend.model.Region">
+        <id property="id" column="id"/>
+        <result property="countryId" column="country_id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <sql id="sqlRegion">
+        SELECT
+            r.id
+            , r.country_id
+            , r.name
+        FROM region r
+    </sql>
+
+    <select id="getAll" resultMap="regionMap">
+        <include refid="sqlRegion"/>
+    </select>
+
+    <select id="get" resultMap="regionMap" parameterType="java.lang.Long">
+        <include refid="sqlRegion"/>
+        WHERE r.id = #{id}
+    </select>
+
+    <select id="buscarPorNombre" resultMap="regionMap">
+        <include refid="sqlRegion"/>
+        WHERE r.name = #{name}
+    </select>
+
+    <insert id="insert" parameterType="cl.bennu.controljornadabackend.model.Region">
+        INSERT INTO region (id, country_id, name)
+        VALUES (#{id}, #{countryId}, #{name})
+    </insert>
+
+    <update id="update" parameterType="cl.bennu.controljornadabackend.model.Region">
+        UPDATE region
+        SET country_id = #{countryId}
+            , name = #{name}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM region WHERE id = #{id}
+    </delete>
+
+</mapper>

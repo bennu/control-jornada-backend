@@ -55,8 +55,9 @@ class MaritalStatusServiceTest {
     }
 
     @Test
-    void saveMaritalStatus_llamaAlInsertDelMapper() {
+    void saveMaritalStatus_sinId_llamaAlInsertDelMapper() {
         MaritalStatus m = maritalStatus();
+        m.setId(null);
 
         maritalStatusService.save(m);
 

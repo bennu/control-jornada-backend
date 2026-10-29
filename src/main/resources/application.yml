@@ -9,10 +9,10 @@ spring:
   main:
     banner-mode: log
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:template-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'classpath:db/schema.sql'
-    username: h2
-    password:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:template-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'classpath:db/schema.sql'}
+    username: ${SPRING_DATASOURCE_USERNAME:h2}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
 
 mybatis:
   config-location: classpath:mybatis-config.xml
