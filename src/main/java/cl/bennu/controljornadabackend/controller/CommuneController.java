@@ -40,6 +40,10 @@ public class CommuneController extends BaseController {
     @GetMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         Commune commune = communeService.getById(id);
+        if(commune == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ok(commune);
     }
 
