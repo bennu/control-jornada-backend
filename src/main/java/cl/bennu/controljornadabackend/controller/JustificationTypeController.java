@@ -42,6 +42,10 @@ public class JustificationTypeController extends BaseController {
     @GetMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         JustificationType justType = justificationTypeService.getById(id);
+        if(justType == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ok(justType);
     }
 
