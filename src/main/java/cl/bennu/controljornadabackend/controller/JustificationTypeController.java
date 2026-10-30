@@ -29,7 +29,7 @@ public class JustificationTypeController extends BaseController {
 
     @GetMapping(ENDPOINT)
     public ResponseEntity<?> getAll() {
-        List<JustificationType> justTypes = justificationTypeService.getAllExamples();
+        List<JustificationType> justTypes = justificationTypeService.getAll();
         return ok(justTypes);
     }
 
@@ -41,13 +41,17 @@ public class JustificationTypeController extends BaseController {
 
     @GetMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        JustificationType justType = justificationTypeService.getExampleById(id);
+        JustificationType justType = justificationTypeService.getById(id);
+        if(justType == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ok(justType);
     }
 
     @DeleteMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        justificationTypeService.deleteExample(id);
+        justificationTypeService.delete(id);
         return ok();
     }
 }

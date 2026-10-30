@@ -13,7 +13,7 @@ import cl.bennu.controljornadabackend.model.JustificationType;
 public class JustificationTypeService {
     private @Autowired JustificationTypeMapper justificationTypeMapper;
 
-    public List<JustificationType> getAllExamples() {
+    public List<JustificationType> getAll() {
         return justificationTypeMapper.getAll();
     }
 
@@ -26,11 +26,11 @@ public class JustificationTypeService {
         }
     }
 
-    public JustificationType getExampleById(Long id) {
+    public JustificationType getById(Long id) {
         return justificationTypeMapper.get(id);
     }
 
-    public void deleteExample(Long id) {
+    public void delete(Long id) {
         justificationTypeMapper.delete(id);
     }
 }
