@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cl.bennu.controljornadabackend.mapper.RegisterMapper">
+
+    <resultMap id="registerMap"
+               type="cl.bennu.controljornadabackend.model.Register">
+        <id property="id" column="id"/>
+        <result property="employeeId" column="employee_id"/>
+        <result property="startOfTheDay" column="start_of_the_day"/>
+        <result property="entry" column="entry"/>
+        <result property="exit" column="exit"/>
+        <result property="breakTime" column="break_time"/>
+        <result property="backToWork" column="back_to_work"/>
+        <result property="day" column="day"/>
+        <result property="justificationId" column="justification_id"/>
+    </resultMap>
+
+    <sql id="sqlRegister">
+        SELECT
+            r.id
+             , r.employee_id
+             , r.start_of_the_day
+             , r.entry
+             , r.exit
+             , r.break_time
+             , r.back_to_work
+             , r.day
+             , r.justification_id
+        FROM register r
+    </sql>
+
+    <select id="getAll" resultMap="registerMap">
+        <include refid="sqlRegister"/>
+        ORDER BY r.id
+    </select>
+
+    <select id="get" resultMap="registerMap"
+            parameterType="java.lang.Long">
+        <include refid="sqlRegister"/>
+        WHERE r.id = #{id}
+    </select>
+
+    <select id="find" resultMap="registerMap"
+            parameterType="cl.bennu.controljornadabackend.model.Register">
+        <include refid="sqlRegister"/>
+        WHERE
+        (#{id} IS NULL OR r.id = #{id})
+        AND (#{employeeId} IS NULL OR r.employee_id = #{employeeId})
+        AND (#{day} IS NULL OR r.day = #{day})
+    </select>
+
+    <insert id="insert"
+            parameterType="cl.bennu.controljornadabackend.model.Register"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            keyColumn="id">
+        INSERT INTO register (
+                               employee_id
+                             , start_of_the_day
+                             , entry
+                             , exit
+                             , break_time
+                             , back_to_work
+                             , day
+                             , justification_id
+        ) VALUES (
+                   #{employeeId}
+                 , #{startOfTheDay}
+                 , #{entry}
+                 , #{exit}
+                 , #{breakTime}
+                 , #{backToWork}
+                 , #{day}
+                 , #{justificationId}
+                 )
+    </insert>
+
+    <update id="update"
+            parameterType="cl.bennu.controljornadabackend.model.Register">
+        UPDATE register SET
+            employee_id = #{employeeId}
+                          , start_of_the_day = #{startOfTheDay}
+                          , entry = #{entry}
+                          , exit = #{exit}
+                          , break_time = #{breakTime}
+                          , back_to_work = #{backToWork}
+                          , day = #{day}
+                          , justification_id = #{justificationId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM register
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
