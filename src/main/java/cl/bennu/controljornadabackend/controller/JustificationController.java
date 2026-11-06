@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = Constants.BASE_API, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,14 +28,20 @@ public class JustificationController extends BaseController {
     private @Autowired JustificationService justificationService;
 
     @GetMapping(ENDPOINT)
-    public ResponseEntity<List<Justification>> getAll() {
-        List<Justification> justifications = justificationService.getAllJustifications();
+    public ResponseEntity<List<Map<String, Object>>> getAll() {
+        List<Map<String, Object>> justifications = justificationService.getAllJustificationsConTipo();
         return ResponseEntity.ok(justifications);
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<Justification> save(@RequestBody Justification justification) {
-        justificationService.saveJustification(justification);
+    public ResponseEntity<Justification> create(@RequestBody Justification justification) {
+        justificationService.createJustification(justification);
+        return ResponseEntity.ok(justification);
+    }
+
+    @PutMapping(ENDPOINT + "/{id}")
+    public ResponseEntity<Justification> update(@PathVariable Long id, @RequestBody Justification justification) {
+        justificationService.updateJustification(id, justification);
         return ResponseEntity.ok(justification);
     }
 

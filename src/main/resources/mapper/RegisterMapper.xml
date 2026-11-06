@@ -5,9 +5,12 @@
 
 <mapper namespace="cl.bennu.controljornadabackend.mapper.RegisterMapper">
 
+
     <resultMap id="registerMap"
                type="cl.bennu.controljornadabackend.model.Register">
+
         <id property="id" column="id"/>
+
         <result property="employeeId" column="employee_id"/>
         <result property="startOfTheDay" column="start_of_the_day"/>
         <result property="entry" column="entry"/>
@@ -16,36 +19,81 @@
         <result property="backToWork" column="back_to_work"/>
         <result property="day" column="day"/>
         <result property="justificationId" column="justification_id"/>
+
+        <association
+                property="justification"
+                javaType="cl.bennu.controljornadabackend.model.Justification"
+                notNullColumn="justification_object_id">
+
+            <id property="id" column="justification_object_id"/>
+
+            <result property="comments"
+                    column="justification_comments"/>
+
+            <result property="attachment"
+                    column="justification_attachment"/>
+
+            <result property="justificationTypeId"
+                    column="justification_type_id"/>
+
+            <result property="justificationTypeName"
+                    column="justification_type_name"/>
+
+        </association>
+
     </resultMap>
+
+
 
     <sql id="sqlRegister">
         SELECT
-            r.id
-             , r.employee_id
-             , r.start_of_the_day
-             , r.entry
-             , r.exit
-             , r.break_time
-             , r.back_to_work
-             , r.day
-             , r.justification_id
+            r.id,
+            r.employee_id,
+            r.start_of_the_day,
+            r.entry,
+            r.exit,
+            r.break_time,
+            r.back_to_work,
+            r.day,
+            r.justification_id,
+
+            j.id AS justification_object_id,
+            j.comments AS justification_comments,
+            j.attachment AS justification_attachment,
+            j.justification_type_id AS justification_type_id,
+
+            jt.name AS justification_type_name
+
         FROM register r
+
+                 LEFT JOIN justification j
+                           ON r.justification_id = j.id
+
+                 LEFT JOIN justification_type jt
+                           ON j.justification_type_id = jt.id
     </sql>
+
 
     <select id="getAll" resultMap="registerMap">
         <include refid="sqlRegister"/>
         ORDER BY r.id
     </select>
 
-    <select id="get" resultMap="registerMap"
+    <select id="get"
+            resultMap="registerMap"
             parameterType="java.lang.Long">
+
         <include refid="sqlRegister"/>
+
         WHERE r.id = #{id}
     </select>
 
-    <select id="find" resultMap="registerMap"
+    <select id="find"
+            resultMap="registerMap"
             parameterType="cl.bennu.controljornadabackend.model.Register">
+
         <include refid="sqlRegister"/>
+
         WHERE
         (#{id} IS NULL OR r.id = #{id})
         AND (#{employeeId} IS NULL OR r.employee_id = #{employeeId})
@@ -57,38 +105,41 @@
             useGeneratedKeys="true"
             keyProperty="id"
             keyColumn="id">
+
         INSERT INTO register (
-                               employee_id
-                             , start_of_the_day
-                             , entry
-                             , exit
-                             , break_time
-                             , back_to_work
-                             , day
-                             , justification_id
+            employee_id,
+            start_of_the_day,
+            entry,
+            exit,
+            break_time,
+            back_to_work,
+            day,
+            justification_id
         ) VALUES (
-                   #{employeeId}
-                 , #{startOfTheDay}
-                 , #{entry}
-                 , #{exit}
-                 , #{breakTime}
-                 , #{backToWork}
-                 , #{day}
-                 , #{justificationId}
+                     #{employeeId},
+                     #{startOfTheDay},
+                     #{entry},
+                     #{exit},
+                     #{breakTime},
+                     #{backToWork},
+                     #{day},
+                     #{justificationId}
                  )
     </insert>
 
     <update id="update"
             parameterType="cl.bennu.controljornadabackend.model.Register">
+
         UPDATE register SET
-            employee_id = #{employeeId}
-                          , start_of_the_day = #{startOfTheDay}
-                          , entry = #{entry}
-                          , exit = #{exit}
-                          , break_time = #{breakTime}
-                          , back_to_work = #{backToWork}
-                          , day = #{day}
-                          , justification_id = #{justificationId}
+                            employee_id = #{employeeId},
+                            start_of_the_day = #{startOfTheDay},
+                            entry = #{entry},
+                            exit = #{exit},
+                            break_time = #{breakTime},
+                            back_to_work = #{backToWork},
+                            day = #{day},
+                            justification_id = #{justificationId}
+
         WHERE id = #{id}
     </update>
 
