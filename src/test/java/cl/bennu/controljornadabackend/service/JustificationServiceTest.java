@@ -30,7 +30,9 @@ class JustificationServiceTest {
         Justification justification = new Justification();
         justification.setId(1L);
         justification.setComments("Licencia médica");
-        justification.setJustificationTypeId(1);
+        JustificationType type = new JustificationType();
+        type.setId(1L);
+        justification.setJustificationType(type);
         return justification;
     }
 
