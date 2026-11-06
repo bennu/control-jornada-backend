@@ -23,4 +23,6 @@ public class Register extends BaseDomain implements Serializable {
     private LocalTime backToWork;
     private LocalDate day;
     private Integer justificationId;
+
+    private Justification justification;
 }

@@ -19,6 +19,8 @@ public class Justification extends BaseDomain implements Serializable {
     @JsonIncludeProperties({"id", "name"})
     private JustificationType justificationType;
 
+    private String justificationTypeName;
+
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static Justification valueOf(Long id) {
         Justification justification = new Justification();
