@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.sql.Time;
 

@@ -5,7 +5,6 @@ import cl.bennu.commons.domain.base.BaseDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;

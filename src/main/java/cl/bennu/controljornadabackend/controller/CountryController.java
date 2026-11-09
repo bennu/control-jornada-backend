@@ -31,16 +31,27 @@ public class CountryController extends BaseController {
 //        return ok(country);
 //    }
 
-    @PostMapping(ENDPOINT)
+/*    @PostMapping(ENDPOINT)
     public ResponseEntity<?> insert(@RequestBody Country country) {
         countryService.insert(country);
         return ok(country);
     }
 
-    @PutMapping(ENDPOINT + "/id")
+    @PutMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Country country) {
         country.setId(id);
         countryService.update(country);
+        return ok(country);
+    }
+*/
+
+    @PostMapping(ENDPOINT)
+    public ResponseEntity<?> save(@RequestBody Country country) {
+        if (country.getId() != null) {
+            countryService.update(country);
+        } else {
+            countryService.insert(country);
+        }
         return ok(country);
     }
 

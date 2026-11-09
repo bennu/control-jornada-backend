@@ -6,4 +6,4 @@ import cl.bennu.commons.mapper.base.BaseMapper;
 import cl.bennu.controljornadabackend.model.Gender;
 
 @Mapper 
-public interface GenderMapper extends BaseMapper<Gender> { /* impl. en XML */ }
+public interface GenderMapper extends BaseMapper<Gender> {  }

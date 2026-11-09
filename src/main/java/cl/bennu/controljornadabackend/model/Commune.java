@@ -2,8 +2,9 @@ package cl.bennu.controljornadabackend.model;
 
 import java.io.Serializable;
 
-import cl.bennu.commons.domain.base.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import cl.bennu.commons.domain.base.BaseDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

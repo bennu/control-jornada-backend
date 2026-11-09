@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cl.bennu.controljornadabackend.mapper.JobSchedulerMapper">
+
+  <resultMap id="jobSchedulerMap" type="cl.bennu.controljornadabackend.model.JobScheduler">
+    <id     property="id"   column="id"/>
+    <result property="name" column="name"/>
+
+    <result property="monday"        column="monday"/>
+    <result property="monday_from"   column="monday_from"/>
+    <result property="monday_to"     column="monday_to"/>
+
+    <result property="tuesday"       column="tuesday"/>
+    <result property="tuesday_from"  column="tuesday_from"/>
+    <result property="tuesday_to"    column="tuesday_to"/>
+
+    <result property="wednesday"     column="wednesday"/>
+    <result property="wednesday_from" column="wednesday_from"/>
+    <result property="wednesday_to"  column="wednesday_to"/>
+
+    <result property="thursday"      column="thursday"/>
+    <result property="thursday_from" column="thursday_from"/>
+    <result property="thursday_to"   column="thursday_to"/>
+
+    <result property="friday"        column="friday"/>
+    <result property="friday_from"   column="friday_from"/>
+    <result property="friday_to"     column="friday_to"/>
+
+    <result property="saturday"      column="saturday"/>
+    <result property="saturday_from" column="saturday_from"/>
+    <result property="saturday_to"   column="saturday_to"/>
+
+    <result property="sunday"        column="sunday"/>
+    <result property="sunday_from"   column="sunday_from"/>
+    <result property="sunday_to"     column="sunday_to"/>
+  </resultMap>
+
+  <select id="getAll" resultMap="jobSchedulerMap">
+    SELECT *
+    FROM job_scheduler
+    ORDER BY id
+  </select>
+
+  <select id="get" parameterType="long" resultMap="jobSchedulerMap">
+    SELECT *
+    FROM job_scheduler
+    WHERE id = #{id}
+  </select>
+
+</mapper>
