@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -37,7 +38,7 @@ public class JustificationTypeController extends BaseController {
     @PostMapping(ENDPOINT)
     public ResponseEntity<?> create(@RequestBody JustificationType justTypes) {
         justificationTypeService.create(justTypes);
-        return ok(justTypes); // viene con el ID generado (autoGenerateKeys = true)
+        return new ResponseEntity<>(justTypes, HttpStatus.CREATED); // viene con el ID generado (autoGenerateKeys = true)
     }
 
     @PutMapping(ENDPOINT)
@@ -49,10 +50,6 @@ public class JustificationTypeController extends BaseController {
     @GetMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         JustificationType justType = justificationTypeService.getById(id);
-        if(justType == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         return ok(justType);
     }
 

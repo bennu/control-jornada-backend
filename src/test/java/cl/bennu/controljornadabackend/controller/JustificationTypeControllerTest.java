@@ -25,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 
 import cl.bennu.controljornadabackend.constants.Constants;
+import cl.bennu.controljornadabackend.controller.advice.GlobalExceptionHandler;
+import cl.bennu.controljornadabackend.controller.advice.ResourceNotFoundException;
 import cl.bennu.controljornadabackend.service.JustificationTypeService;
 import cl.bennu.controljornadabackend.model.JustificationType;
 
@@ -45,7 +47,9 @@ public class JustificationTypeControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(justificationTypeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(justificationTypeController)
+                    .setControllerAdvice(new GlobalExceptionHandler())
+                    .build();
     }
 
     private JustificationType JustificationType() {
@@ -97,7 +101,9 @@ public class JustificationTypeControllerTest {
 
     @Test
     void getById_noExiste_retorna404() throws Exception {
-        when(justificationTypeService.getById(idError)).thenReturn(null);
+        when(justificationTypeService.getById(idError)).thenThrow(
+            new ResourceNotFoundException("No se encontró el ID: " + idError)
+        );
 
         mockMvc.perform(get(ENDPOINT + "/" + idError))
                 .andExpect(status().isNotFound());
@@ -116,7 +122,7 @@ public class JustificationTypeControllerTest {
     // ---------- POST /v1/template/justification-type ----------
 
     @Test
-    void create_sinId_return200() throws Exception {
+    void create_sinId_return201() throws Exception {
         String json = """
                 {
                   "name": "Descanso médico"
@@ -126,7 +132,7 @@ public class JustificationTypeControllerTest {
         mockMvc.perform(post(ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Descanso médico"));
 
         ArgumentCaptor<JustificationType> captor = ArgumentCaptor.forClass(JustificationType.class);

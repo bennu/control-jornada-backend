@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import cl.bennu.controljornadabackend.controller.advice.ResourceNotFoundException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import cl.bennu.controljornadabackend.mapper.JustificationTypeMapper;
 import cl.bennu.controljornadabackend.model.JustificationType;
 
@@ -52,10 +54,14 @@ public class JustificationTypeServiceTest {
     }
 
     @Test
-    void getJustificationTypeById_inexistente_devuelveNull() {
+    void getJustificationTypeById_inexistente_lanzaResourceNotFoundException() {
         when(justificationTypeMapper.get(99L)).thenReturn(null);
 
-        assertThat(justificationTypeService.getById(99L)).isNull();
+        assertThatThrownBy(() -> justificationTypeService.getById(99L))
+            .isInstanceOf(ResourceNotFoundException.class)
+            .hasMessage("No se encontró el ID: 99");
+
+        verify(justificationTypeMapper).get(99L);
     }
 
     @Test
@@ -72,6 +78,7 @@ public class JustificationTypeServiceTest {
     @Test
     void update_llamaAlUpdateDelMapper() {
         JustificationType j = justificationType();
+        when(justificationTypeMapper.exists(j.getId())).thenReturn(true);
         // => ID no nulo
 
         justificationTypeService.update(j);
@@ -82,6 +89,7 @@ public class JustificationTypeServiceTest {
 
     @Test
     void deleteJustificationType_llamaAlDeleteDelMapper() {
+        when(justificationTypeMapper.exists(1L)).thenReturn(true);
         justificationTypeService.delete(1L);
 
         verify(justificationTypeMapper).delete(1L);
