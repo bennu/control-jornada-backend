@@ -89,4 +89,8 @@
         DELETE FROM commune WHERE id = #{id}
     </delete>
 
+    <select id="exists" parameterType="java.lang.Long">
+        SELECT COUNT(1) FROM commune WHERE id = #{id}
+    </select>
+
 </mapper>

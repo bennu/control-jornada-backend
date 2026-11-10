@@ -3,6 +3,7 @@ package cl.bennu.controljornadabackend.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,7 @@ public class CommuneController extends BaseController {
     @PostMapping(ENDPOINT)
     public ResponseEntity<?> create(@RequestBody Commune commune) {
         communeService.create(commune);
-        return ok(commune);
+        return new ResponseEntity<>(commune, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
@@ -47,10 +48,6 @@ public class CommuneController extends BaseController {
     @GetMapping(ENDPOINT + "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         Commune commune = communeService.getById(id);
-        if(commune == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         return ok(commune);
     }
 

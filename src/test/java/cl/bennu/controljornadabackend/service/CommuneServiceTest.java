@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import cl.bennu.controljornadabackend.controller.advice.ResourceNotFoundException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import cl.bennu.controljornadabackend.mapper.CommuneMapper;
 import cl.bennu.controljornadabackend.model.City;
 import cl.bennu.controljornadabackend.model.Commune;
@@ -76,10 +78,14 @@ public class CommuneServiceTest {
     }
 
     @Test
-    void getCommuneById_inexistente_devuelveNull() {
+    void getCommuneById_inexistente_lanzaResourceNotFoundException() {
         when(communeMapper.get(99L)).thenReturn(null);
 
-        assertThat(communeService.getById(99L)).isNull();
+        assertThatThrownBy(() -> communeService.getById(99L))
+            .isInstanceOf(ResourceNotFoundException.class)
+            .hasMessage("No se encontró el ID: 99");
+
+        verify(communeMapper).get(99L);
     }
 
     @Test
@@ -96,6 +102,7 @@ public class CommuneServiceTest {
     @Test
     void update_llamaAlUpdateDelMapper() {
         Commune c = commune();
+        when(communeMapper.exists(1L)).thenReturn(true);
         // => ID no nulo
 
         communeService.update(c);
@@ -106,6 +113,7 @@ public class CommuneServiceTest {
 
     @Test
     void deleteCommune_llamaAlDeleteDelMapper() {
+        when(communeMapper.exists(1L)).thenReturn(true);
         communeService.delete(1L);
 
         verify(communeMapper).delete(1L);
