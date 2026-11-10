@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", Instant.now().toString());
         body.put("status", HttpStatus.NOT_FOUND.value());
-        body.put("status", HttpStatus.NOT_FOUND.getReasonPhrase());
+        body.put("error", HttpStatus.NOT_FOUND.getReasonPhrase());
         body.put("message", exception.getMessage());
         body.put("path", request.getRequest().getRequestURI());
 
